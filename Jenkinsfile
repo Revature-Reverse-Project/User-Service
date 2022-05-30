@@ -4,8 +4,6 @@ pipeline {
         PROJECT_ID = 'project-id'
         CLUSTER_NAME = 'cluster-name'
         CLUSTER_LOCATION = 'northamerica-northeast2'
-        REGISTRY_LOCATION = 'northamerica-northeast2'
-        REPOSITORY = 'repository-name'
         CREDENTIALS_ID = 'credentials-id'
     }
     stages {
@@ -32,8 +30,8 @@ pipeline {
             steps {
                 script {
                     echo "Docker push"
-                    sh "docker tag user-service ghcr.io/jamty1/user-service"
-                    sh "docker push ghcr.io/jamty1/user-service"
+                    sh "docker tag user-service ghcr.io/${GITHUB_USER}/user-service"
+                    sh "docker push ghcr.io/${GITHUB_USER}/user-service"
                 }
             }
         }
