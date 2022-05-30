@@ -24,20 +24,19 @@ pipeline {
             steps {
                 script {
                     echo "Docker Build"
-                    sh "docker build -t user_service https://github.com/Revature-Reverse-Project/User-Service.git#master"
+                    sh "docker build -t user-service ."
                 }
             }
         }
-        /*
         stage ('Docker tag and push to Github') {
             steps {
                 script {
                     echo "Docker push"
-                    sh "docker tag directionsapi ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/directionsapi"
-                    sh "docker push ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/directionsapi"
+                    sh "docker push ghcr.io/jamty1/user-service:latest"
                 }
             }
         }
+        /*
         stage ('Deploy to GKE') {
             steps {
                 echo "Deploying to GKE"
