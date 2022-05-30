@@ -32,7 +32,8 @@ pipeline {
             steps {
                 script {
                     echo "Docker push"
-                    sh "docker push ghcr.io/jamty1/user-service:latest"
+                    sh "docker tag user-service ghcr.io/jamty1/user-service"
+                    sh "docker push ghcr.io/jamty1/user-service"
                 }
             }
         }
