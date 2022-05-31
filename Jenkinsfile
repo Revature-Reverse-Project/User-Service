@@ -10,7 +10,7 @@ pipeline {
         stage ('User-Service - Run Maven Tests and Submit to SonarQube'){ 
             steps {
                 withSonarQubeEnv('sonarqube-p3-test') {
-                    sh "cd docker run \
+                    sh "docker run \
                     --user \"\$(id -u):\$(id -g)\" \
                     --rm \
                     -v `pwd`:/container/directory \
