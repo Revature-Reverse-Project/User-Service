@@ -18,7 +18,7 @@ pipeline {
                     maven:3.8.5-openjdk-8-slim \
                     mvn test"
 
-                    sh "cd User-Service; rm .git; docker run \
+                    sh "docker run \
                     --user \"\$(id -u):\$(id -g)\" \
                     --rm \
                     -v `pwd`:/container/directory \
