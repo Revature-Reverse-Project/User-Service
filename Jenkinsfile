@@ -5,13 +5,19 @@ pipeline {
         CLUSTER_NAME = 'cluster-name'
         CLUSTER_LOCATION = 'northamerica-northeast2'
         CREDENTIALS_ID = 'credentials-id'
+        SCANNER_HOME = tool 'SonarQubeScanner'
+        ORGANIZATION = "Revature-Reverse-Project"
+        PROJECT_NAME = "User-Service"
     }
     stages {
         stage('Quality Gate') {
             steps {
                 echo "Quality Gate"
-                withSonarQubeEnv('SonarQube Server') {
-                    sh 'mvn clean package sonar:sonar'
+                withSonarQubeEnv('sq1') {
+                    sh '''$SCANNER_HOME/bin/sonar-scanner -Dsonar.organization=$ORGANIZATION \
+                    -Dsonar.java.binaries=build/classes/java/ \
+                    -Dsonar.projectKey=$PROJECT_NAME \
+                    -Dsonar.sources=.'''
                 }
             }
         }
