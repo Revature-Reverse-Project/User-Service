@@ -6,7 +6,7 @@ pipeline {
         CLUSTER_LOCATION = 'northamerica-northeast2'
         CREDENTIALS_ID = 'credentials-id'
         SCANNER_HOME = tool 'SonarQubeScanner'
-        ORGANIZATION = "Revature-Reverse-Project"
+        ORGANIZATION = "revature-reverse-project"
         PROJECT_NAME = "User-Service"
     }
     stages {
