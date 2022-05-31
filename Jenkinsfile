@@ -10,8 +10,12 @@ pipeline {
         stage('Quality Gate') {
             steps {
                 echo "Quality Gate"
+                withSonarQubeEnv('SonarQube Server') {
+                    sh 'mvn clean package sonar:sonar'
+                }
             }
         }
+        /*
         stage('Unit Tests') {
             steps {
                 echo "Unit Tests"
@@ -35,7 +39,6 @@ pipeline {
                 }
             }
         }
-        /*
         stage ('Deploy to GKE') {
             steps {
                 echo "Deploying to GKE"
