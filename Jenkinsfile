@@ -13,7 +13,7 @@ pipeline {
         stage('Quality Gate') {
             steps {
                 echo "Quality Gate"
-                withSonarQubeEnv('sq1') {
+                withSonarQubeEnv('SonarCloud') {
                     sh '''$SCANNER_HOME/bin/sonar-scanner -Dsonar.organization=$ORGANIZATION \
                     -Dsonar.java.binaries=build/classes/java/ \
                     -Dsonar.projectKey=$PROJECT_NAME \
