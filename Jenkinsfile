@@ -14,7 +14,7 @@ pipeline {
             steps {
                 echo "Quality Gate"
                 withSonarQubeEnv('SonarCloud') {
-                    sh '$SONAR_MAVEN_GOAL'
+                    sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.7.0.1746:sonar'
                 }
             }
         }
