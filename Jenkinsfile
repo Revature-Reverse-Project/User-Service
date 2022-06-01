@@ -19,9 +19,9 @@ pipeline {
                     -w /container/directory \
                     maven:3.8.5-openjdk-11-slim \
                     mvn verify sonar:sonar \
-                    -Dsonar.host.url=${SONAR_HOST_URL} \
-                    -Dsonar.login=${SONAR_AUTH_TOKEN} \
-                    -Dsonar.projectKey=${SONAR_USER_SERVICE_PROJECT_KEY} \
+                    -Dsonar.host.url=${env.SONAR_HOST_URL} \
+                    -Dsonar.login=${env.SONAR_AUTH_TOKEN} \
+                    -Dsonar.projectKey=${env.SONAR_USER_SERVICE_PROJECT_KEY} \
                     mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
                     -Dsonar.projectKey=p3-daewoon-test-user-service"
                 }
