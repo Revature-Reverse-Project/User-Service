@@ -21,7 +21,7 @@ pipeline {
                     mvn verify sonar:sonar \
                     -Dsonar.host.url=${SONAR_HOST_URL} \
                     -Dsonar.login=${SONAR_AUTH_TOKEN} \
-                    -Dsonar.projectKey=${SONAR_USER_SERVICE_PROJECT_KEY}
+                    -Dsonar.projectKey=${SONAR_USER_SERVICE_PROJECT_KEY} \
                     mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
                     -Dsonar.projectKey=p3-daewoon-test-user-service"
                 }
