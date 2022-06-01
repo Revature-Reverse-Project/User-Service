@@ -29,7 +29,7 @@ pipeline {
         stage("User-Service - Quality Gate") {
             steps {
                 timeout(time: 1, unit: 'HOURS') {
-                    waitForQualityGate abortPipeline: true, webhookSecretId: ${webhookSecretIdKey}
+                    waitForQualityGate abortPipeline: true, webhookSecretId: "${webhookSecretIdKey}"
                 }
             }
         }
