@@ -14,7 +14,8 @@ pipeline {
             steps {
                 echo "Quality Gate"
                 withSonarQubeEnv('SonarCloud') {
-                    sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.7.0.1746:sonar'
+                    sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.7.0.1746:sonar \
+                        -Dsonar.organization=revature-reverse-project'
                 }
             }
         }
