@@ -14,11 +14,7 @@ pipeline {
             steps {
                 echo "Quality Gate"
                 withSonarQubeEnv('SonarCloud') {
-                    sh 'mvn clean install sonar:sonar'
-                    sh '''$SCANNER_HOME/bin/sonar-scanner -Dsonar.organization=$ORGANIZATION \
-                    -Dsonar.java.binaries=target/classes/ \
-                    -Dsonar.projectKey=$PROJECT_NAME \
-                    -Dsonar.sources=.'''
+                    sh '$SONAR_MAVEN_GOAL'
                 }
             }
         }
