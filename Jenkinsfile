@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    environment {
+        webhookSecretIdKey = 'p3-daewoon-sonarcloud-test-user-service-jenkins-webhook'
+    }
     stages {
         stage ('User-Service - Run Maven Tests, Lint, and Submit to SonarQube'){ 
             steps {
@@ -18,20 +21,15 @@ pipeline {
                     -v `pwd`:/container/directory \
                     -w /container/directory \
                     maven:3.8.5-openjdk-11-slim \
-                    mvn verify sonar:sonar \
-                    -Dsonar.host.url=${env.SONAR_HOST_URL} \
-                    -Dsonar.login=${env.SONAR_AUTH_TOKEN} \
-                    -Dsonar.projectKey=${env.SONAR_USER_SERVICE_PROJECT_KEY}"
-
-                    // mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
-                    // -Dsonar.projectKey=p3-daewoon-test-user-service"
+                    mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \ 
+                    -Dsonar.projectKey=${env.SONAR_AUTH_TOKEN}"
                 }
             }
         }
         stage("User-Service - Quality Gate") {
             steps {
                 timeout(time: 1, unit: 'HOURS') {
-                    waitForQualityGate abortPipeline: true, webhookSecretId: 'sonar-cloud-p3-daewoon-userservice-token'
+                    waitForQualityGate abortPipeline: true, webhookSecretId: ${webhookSecretIdKey}
                 }
             }
         }
