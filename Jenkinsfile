@@ -7,9 +7,9 @@ pipeline {
                 withSonarQubeEnv('SonarCloud') {
                     sh '''
                         mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.7.0.1746:sonar
-                        -Dsonar.organization=$ORGANIZATION
+                        -Dsonar.organization=${ORGANIZATION}
                         -Dsonar.java.binaries=target
-                        -Dsonar.branch.name=$BRANCH
+                        -Dsonar.branch.name=${BRANCH}
                         '''
                 }
             }
