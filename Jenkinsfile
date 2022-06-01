@@ -18,11 +18,12 @@ pipeline {
                     sh "docker run \
                     --user \"\$(id -u):\$(id -g)\" \
                     --rm \
+                    --env SONAR_TOKEN=${env.SONAR_AUTH_TOKEN} \
                     -v `pwd`:/container/directory \
                     -w /container/directory \
                     maven:3.8.5-openjdk-11-slim \
                     mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
-                    -Dsonar.projectKey=${env.SONAR_AUTH_TOKEN}"
+                    -Dsonar.projectKey=p3-daewoon-test-user-service"
                 }
             }
         }
