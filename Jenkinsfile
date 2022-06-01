@@ -1,22 +1,16 @@
 pipeline {
     agent any
-    environment {
-        SONAR_HOST_URL = 'http://34.130.147.227:9000' /*docker run -d --name sonarqube -e SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true -p 9000:9000 sonarqube:latest*/
-
-        //Can create secret text in jenkins configuration for webhooks. In sonarqube will have to specify webhook if you do.
-        SONAR_USER_SERVICE_PROJECT_KEY = 'p3-reverse-user-service'
-    }
     stages {
-        stage ('User-Service - Run Maven Tests and Submit to SonarQube'){ 
+        stage ('User-Service - Run Maven Tests, Lint, and Submit to SonarQube'){ 
             steps {
-                withSonarQubeEnv('sonarqube-p3-test') {
+                withSonarQubeEnv('SonarCloud') {
                     sh "docker run \
                     --user \"\$(id -u):\$(id -g)\" \
                     --rm \
                     -v `pwd`:/container/directory \
                     -w /container/directory \
                     maven:3.8.5-openjdk-8-slim \
-                    mvn test"
+                    mvn test clean"
 
                     sh "docker run \
                     --user \"\$(id -u):\$(id -g)\" \
@@ -24,19 +18,19 @@ pipeline {
                     -v `pwd`:/container/directory \
                     -w /container/directory \
                     maven:3.8.5-openjdk-11-slim \
-                    mvn clean verify sonar:sonar \
+                    mvn verify sonar:sonar \
                     -Dsonar.host.url=${SONAR_HOST_URL} \
                     -Dsonar.login=${SONAR_AUTH_TOKEN} \
-                    -Dsonar.projectKey=${SONAR_USER_SERVICE_PROJECT_KEY}"
-                    // -Dsonar.scm.exclusions.disabled=true \
-                    // -Dsonar.scm.disabled=True"
+                    -Dsonar.projectKey=${SONAR_USER_SERVICE_PROJECT_KEY}
+                    mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
+                    -Dsonar.projectKey=p3-daewoon-test-user-service"
                 }
             }
         }
         stage("User-Service - Quality Gate") {
             steps {
                 timeout(time: 1, unit: 'HOURS') {
-                    waitForQualityGate abortPipeline: true, webhookSecretId: 'sonar-userservice-webhook'
+                    waitForQualityGate abortPipeline: true, webhookSecretId: 'sonar-cloud-p3-daewoon-userservice-token'
                 }
             }
         }
