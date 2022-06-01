@@ -1,15 +1,9 @@
 pipeline {
     agent any
-    environment {
-        PROJECT_ID = 'project-id'
-        CLUSTER_NAME = 'cluster-name'
-        CLUSTER_LOCATION = 'northamerica-northeast2'
-        CREDENTIALS_ID = 'credentials-id'
-    }
     stages {
-        stage('Quality Gate') {
+        stage('Code Analysis') {
             steps {
-                echo "Quality Gate"
+                echo "Code Analysis"
                 withSonarQubeEnv('SonarCloud') {
                     sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.7.0.1746:sonar \
                         -Dsonar.organization=$ORGANIZATION \
@@ -17,7 +11,6 @@ pipeline {
                 }
             }
         }
-        /*
         stage('Unit Tests') {
             steps {
                 echo "Unit Tests"
@@ -32,12 +25,12 @@ pipeline {
                 }
             }
         }
-        stage ('Docker tag and push to Github') {
+        stage ('Docker tag and push to Google Artifact Registry') {
             steps {
                 script {
                     echo "Docker push"
-                    sh "docker tag user-service ghcr.io/${GITHUB_USER}/user-service"
-                    sh "docker push ghcr.io/${GITHUB_USER}/user-service"
+                    sh "docker tag user-service ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/user-service"
+                    sh "docker push ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/user-service"
                 }
             }
         }
@@ -53,6 +46,5 @@ pipeline {
                     verifyDeployments: true])
             }
         }
-        */
     }
 }
