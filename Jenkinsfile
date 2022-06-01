@@ -21,7 +21,7 @@ pipeline {
                     -v `pwd`:/container/directory \
                     -w /container/directory \
                     maven:3.8.5-openjdk-11-slim \
-                    mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \ 
+                    mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
                     -Dsonar.projectKey=${env.SONAR_AUTH_TOKEN}"
                 }
             }
