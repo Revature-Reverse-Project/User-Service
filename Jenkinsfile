@@ -1,6 +1,12 @@
 pipeline {
     agent any
     stages {
+        stage('Unit Tests') {
+            steps {
+                echo "Unit Tests"
+                sh "mvn test"
+            }
+        }
         stage('Code Analysis') {
             steps {
                 echo "Code Analysis"
@@ -9,12 +15,6 @@ pipeline {
                         -Dsonar.organization=$ORGANIZATION \
                         -Dsonar.java.binaries=target'
                 }
-            }
-        }
-        stage('Unit Tests') {
-            steps {
-                echo "Unit Tests"
-                sh "mvn test"
             }
         }
         stage ('Docker Build') {
@@ -41,7 +41,7 @@ pipeline {
                     projectId: env.PROJECT_ID,
                     clusterName: env.CLUSTER_NAME,
                     location: env.CLUSTER_LOCATION,
-                    manifestPattern: 'deployment',
+                    manifestPattern: 'user-service.yaml',
                     credentialsId: env.CREDENTIALS_ID,
                     verifyDeployments: true])
             }
