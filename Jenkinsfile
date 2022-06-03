@@ -39,7 +39,7 @@ pipeline {
         }
         stage ('Deploy to GKE') {
             steps {
-                sh "sed -i 's|image: user-service|image: ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/user-service|g' user-service.yaml"
+                sh "sed -i 's|image: user-service|image: ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/user-service|g' Kubernetes/user-service.yaml"
                 step([$class: 'KubernetesEngineBuilder',
                     projectId: env.PROJECT_ID,
                     clusterName: env.CLUSTER_NAME,

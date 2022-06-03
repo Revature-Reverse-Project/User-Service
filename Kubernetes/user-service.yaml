@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: user-service
-          image: IMAGE NAME DOES NOT EXIST YET FIX LATER
+          image: user-service
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
