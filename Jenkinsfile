@@ -18,6 +18,8 @@ pipeline {
       }
       steps {
         echo "Testing branch"
+        echo "workspace: $WORKSPACE"
+        echo "pwd : $PWD"
         withMaven{
           sh 'mvn test'
         }
