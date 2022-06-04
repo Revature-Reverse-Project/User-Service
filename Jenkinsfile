@@ -2,13 +2,25 @@ pipeline {
   agent any
   stages {
     stage('Build') {
+      when{
+        branch 'master'
+      }
       steps {
-        sh 'echo "Hello, World"'
+        echo "building master"
+        withMaven{
+          sh 'mvn package -DskipTests'
+        }
       }
     }
     stage('Test') {
+      when{
+        not {branch 'master'}
+      }
       steps {
-        sh 'echo "Hello, World"'
+        echo "Testing branch"
+        withMaven{
+          sh 'mvn test'
+        }
       }
     }
     stage('Docker Image') {
