@@ -2,9 +2,6 @@ pipeline {
   agent any
   stages {
     stage('Build') {
-      when{
-        branch 'master'
-      }
       steps {
         echo "building master"
         withMaven{
@@ -13,13 +10,8 @@ pipeline {
       }
     }
     stage('Test') {
-      when{
-        not {branch 'master'}
-      }
       steps {
         echo "Testing branch"
-        echo "workspace: $WORKSPACE"
-        echo "pwd : $PWD"
         withMaven{
           sh 'mvn test'
         }
@@ -27,7 +19,12 @@ pipeline {
     }
     stage('Docker Image') {
       steps {
-        sh 'echo "Hello, World"'
+        sh 'echo "docker build"'
+        script{
+          docker.build "user-service"
+        }
+        
+
       }
     }
     stage('Deploy') {
