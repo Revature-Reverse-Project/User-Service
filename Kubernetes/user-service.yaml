@@ -50,12 +50,12 @@ spec:
               port: 8080
             initialDelaySeconds: 30
             periodSeconds: 15
-          # readinessProbe:
-          #   httpGet:
-          #     path: /lists/locations
-          #     port: 8080
-          #     initialDelaySeconds: 30
-          #     periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+              initialDelaySeconds: 30
+              periodSeconds: 10
 ---
 apiVersion: v1
 kind: Service
