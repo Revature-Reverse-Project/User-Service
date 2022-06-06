@@ -11,10 +11,10 @@ spring:
     driver-class-name: org.postgresql.Driver
 SECRET_KEY: ${SECRET}
 
-eureka:
-  client:
-    service-url:
-      defaultZone: ${EUREKA_URI:http://localhost:8083/eureka}
+# eureka:
+#   client:
+#     service-url:
+#       defaultZone: ${EUREKA_URI:http://localhost:8083/eureka}
 
 management:
   endpoints:
