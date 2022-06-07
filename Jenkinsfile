@@ -32,6 +32,7 @@ pipeline {
         stage ('Docker tag and push to Google Artifact Registry') {
             steps {
                 script {
+//                                               northamerica-northeast2-docker.pkg.dev/javasre-220404-jasonyeung/javasre220404
                     sh "docker tag user-service ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/user-service"
                     sh "docker push ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/user-service"
                 }
