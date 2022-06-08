@@ -2,9 +2,12 @@ pipeline {
     agent any
     tools {
         maven "my-maven"
-        dockerTool "my-docker"
     }
     stages {
+        stage('Initialize') {
+            def dockerHome = tool 'my-docker'
+            env.PATH = "${dockerHome}/bin:${env.PATH}"
+        }
         stage('Unit Tests') {
             steps {
                 sh "mvn test"
