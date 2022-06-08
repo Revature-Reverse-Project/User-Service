@@ -35,7 +35,7 @@ pipeline {
         // }
         stage ('Docker tag and push to Google Artifact Registry') {
             agent {
-                Kubernetes {
+                kubernetes {
                     yaml '''
                         apiVersion: v1
                         kind: Pod
