@@ -45,7 +45,7 @@ pipeline {
             steps {
                 container('kubectl') {
                     withKubeConfig([credentialsId: 'env.CREDENTIALS_ID']) {
-                        sh 'kubectl patch deployment user-service --set-image=${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/user-service'
+                        sh 'kubectl set image deployment/user-service user-service=${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/user-service'
                     }
                 }
                 // sh "sed -i 's|image: user-service|image: ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/user-service|g' Kubernetes/user-service.yaml"
