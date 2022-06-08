@@ -26,13 +26,13 @@ pipeline {
                 }
             }
         }
-        stage ('Docker Build') {
-            steps {
-                script {
-                    sh "docker build -t user-service ."
-                }
-            }
-        }
+        // stage ('Docker Build') {
+        //     steps {
+        //         script {
+        //             sh "docker build -t user-service ."
+        //         }
+        //     }
+        // }
         stage ('Docker tag and push to Google Artifact Registry') {
             steps {
                 Kubernetes {
