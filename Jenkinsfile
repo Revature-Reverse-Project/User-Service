@@ -1,33 +1,5 @@
 pipeline {
-    agent 
-    {
-        kubernetes {
-            label 'build-agent'
-            yaml '''
-            apiVersion: v1
-            kind: Pod
-            metadata:
-            name: kaniko
-            spec:
-            containers:
-              - name: jnlp
-                image: gcr.io/kaniko-project/executor:latest
-                args:
-                volumeMounts:
-                  - name: kaniko-secret
-                    mountPath: /secret
-                env:
-                  - name: GOOGLE_APPLICATION_CREDENTIALS
-                    value: /secret/kaniko-secret.json
-            restartPolicy: Never
-            volumes:
-              - name: kaniko-secret
-                secret:
-                    secretName: kaniko-secret
-                
-        '''
-        }
-    }
+    agent any
     tools {
         maven "my-maven"
         dockerTool "my-docker"
@@ -54,25 +26,20 @@ pipeline {
                 }
             }
         }
-        // stage ('Docker Build') {
-        //     steps {
-        //         script {
-        //             sh "docker build -t user-service ."
-        //         }
-        //     }
-        // }
-        stage ('Docker tag and push to Google Artifact Registry') {
+        stage ('Docker Build') {
             steps {
-                container('kaniko') {
-                    sh '''
-                    /kaniko/executor --context git://github.com/Revature-Reverse-Project/User-Service --destination gcr.io/reverse-devops-sre/user-service:1.0 --dockerfile Dockerfile
-                    '''
+                script {
+                    sh "docker build -t user-service ."
                 }
             }
-                // script {
-                //     sh "docker tag user-service ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/user-service"
-                //     sh "docker push ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/user-service"
-                // }
+        }
+        stage ('Docker tag and push to Google Artifact Registry') {
+            steps {
+                script {
+                    sh "docker tag user-service ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/user-service"
+                    sh "docker push ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/user-service"
+                }
+            }
         }
         stage ('Deploy to GKE') {
             steps {
