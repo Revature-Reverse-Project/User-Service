@@ -1,34 +1,35 @@
 pipeline {
-    agent {
-        kubernetes {
-            yaml '''
-            apiVersion: v1
-            kind: Pod
-            metadata:
-            name: kaniko
-            spec:
-            containers:
-              - name: kaniko
-                image: gcr.io/kaniko-project/executor:latest
-                args:
-                  - "--dockerfile=Dockerfile"
-                  - "--context=git://github.com/Revature-Reverse-Project/User-Service"
-                  - "--destination=gcr.io/reverse-devops-sre/user-service:1.0"
-                volumeMounts:
-                  - name: kaniko-secret
-                    mountPath: /secret
-                env:
-                  - name: GOOGLE_APPLICATION_CREDENTIALS
-                    value: /secret/kaniko-secret.json
-            restartPolicy: Never
-            volumes:
-              - name: kaniko-secret
-                secret:
-                    secretName: kaniko-secret
+    agent any 
+    // {
+    //     kubernetes {
+    //         yaml '''
+    //         apiVersion: v1
+    //         kind: Pod
+    //         metadata:
+    //         name: kaniko
+    //         spec:
+    //         containers:
+    //           - name: kaniko
+    //             image: gcr.io/kaniko-project/executor:latest
+    //             args:
+    //               - "--dockerfile=Dockerfile"
+    //               - "--context=git://github.com/Revature-Reverse-Project/User-Service"
+    //               - "--destination=gcr.io/reverse-devops-sre/user-service:1.0"
+    //             volumeMounts:
+    //               - name: kaniko-secret
+    //                 mountPath: /secret
+    //             env:
+    //               - name: GOOGLE_APPLICATION_CREDENTIALS
+    //                 value: /secret/kaniko-secret.json
+    //         restartPolicy: Never
+    //         volumes:
+    //           - name: kaniko-secret
+    //             secret:
+    //                 secretName: kaniko-secret
                 
-        '''
-        }
-    }
+    //     '''
+    //     }
+    // }
     tools {
         maven "my-maven"
         dockerTool "my-docker"
@@ -62,14 +63,14 @@ pipeline {
         //         }
         //     }
         // }
-        stage ('Docker tag and push to Google Artifact Registry') {
-            steps {
-                container('kaniko') {
-                    sh '''
-                    /kaniko/executor --context git://github.com/Revature-Reverse-Project/User-Service --destination gcr.io/reverse-devops-sre/user-service:1.0 --dockerfile Dockerfile
-                    '''
-                }
-            }
+        // stage ('Docker tag and push to Google Artifact Registry') {
+        //     steps {
+        //         container('kaniko') {
+        //             sh '''
+        //             /kaniko/executor --context git://github.com/Revature-Reverse-Project/User-Service --destination gcr.io/reverse-devops-sre/user-service:1.0 --dockerfile Dockerfile
+        //             '''
+        //         }
+        //     }
                 // script {
                 //     sh "docker tag user-service ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/user-service"
                 //     sh "docker push ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/user-service"
