@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    tools {
+        maven 'my-maven'
+    }
     stages {
         stage('Unit Tests') {
             steps {
