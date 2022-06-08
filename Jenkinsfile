@@ -64,8 +64,10 @@ pipeline {
                 }
             }
             steps {
-
-                sh "echo hello"
+                script {
+                    sh "echo hello"
+                }
+                
                 
                 // script {
                 //     sh "docker tag user-service ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/user-service"
