@@ -65,10 +65,9 @@ pipeline {
         stage ('Docker tag and push to Google Artifact Registry') {
             steps {
                 container('kaniko') {
-                    stage ('build and publish')
-                        sh '''
-                        /kaniko/executor --context git://github.com/Revature-Reverse-Project/User-Service --destination gcr.io/reverse-devops-sre/user-service:1.0 --dockerfile Dockerfile
-                        '''
+                    sh '''
+                    /kaniko/executor --context git://github.com/Revature-Reverse-Project/User-Service --destination gcr.io/reverse-devops-sre/user-service:1.0 --dockerfile Dockerfile
+                    '''
                 }
             }
                 // script {
