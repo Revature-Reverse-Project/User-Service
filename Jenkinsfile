@@ -5,11 +5,9 @@ pipeline {
     }
     environment {
         dockerHome = tool 'my-docker'
+        PATH = "${dockerHome}/bin:${env.PATH}"
     }
     stages {
-        stage('Initialize') {
-            env.PATH = "${dockerHome}/bin:${env.PATH}"
-        }
         stage('Unit Tests') {
             steps {
                 sh "mvn test"
