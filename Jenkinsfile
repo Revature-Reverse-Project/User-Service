@@ -26,31 +26,36 @@ pipeline {
                 }
             }
         }
-        stage ('Docker Build') {
-            steps {
-                script {
-                    sh "docker build -t user-service ."
-                }
-            }
-        }
-        stage ('Docker tag and push to Google Artifact Registry') {
-            steps {
-                script {
-                    sh "docker tag user-service ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/user-service"
-                    sh "docker push ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/user-service"
-                }
-            }
-        }
+        // stage ('Docker Build') {
+        //     steps {
+        //         script {
+        //             sh "docker build -t user-service ."
+        //         }
+        //     }
+        // }
+        // stage ('Docker tag and push to Google Artifact Registry') {
+        //     steps {
+        //         script {
+        //             sh "docker tag user-service ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/user-service"
+        //             sh "docker push ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/user-service"
+        //         }
+        //     }
+        // }
         stage ('Deploy to GKE') {
             steps {
-                sh "sed -i 's|image: user-service|image: ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/user-service|g' Kubernetes/user-service.yaml"
-                step([$class: 'KubernetesEngineBuilder',
-                    projectId: env.PROJECT_ID,
-                    clusterName: env.CLUSTER_NAME,
-                    location: env.CLUSTER_LOCATION,
-                    manifestPattern: 'Kubernetes',
-                    credentialsId: env.CREDENTIALS_ID,
-                    verifyDeployments: true])
+                container('kubectl') {
+                    withKubeConfig([credentialsId: 'env.CREDENTIALS_ID']) {
+                        sh 'kubectl patch deployment user-service --set-image=${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/user-service'
+                    }
+                }
+                // sh "sed -i 's|image: user-service|image: ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/user-service|g' Kubernetes/user-service.yaml"
+                // step([$class: 'KubernetesEngineBuilder',
+                //     projectId: env.PROJECT_ID,
+                //     clusterName: env.CLUSTER_NAME,
+                //     location: env.CLUSTER_LOCATION,
+                //     manifestPattern: 'Kubernetes',
+                //     credentialsId: env.CREDENTIALS_ID,
+                //     verifyDeployments: true])
             }
         }
     }
