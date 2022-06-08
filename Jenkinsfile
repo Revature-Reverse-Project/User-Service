@@ -2,7 +2,6 @@ pipeline {
     agent any
     tools {
         maven 'my-maven'
-        docker 'my-docker'
     }
     stages {
         stage('Unit Tests') {
