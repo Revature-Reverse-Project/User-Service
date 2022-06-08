@@ -3,4 +3,4 @@ kind: ConfigMap
 metadata:
   name: user-service-config
 data:
-  db_url: ""
+  db_url: "jdbc:postgresql://localhost:5432/postgres"

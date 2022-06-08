@@ -22,29 +22,11 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
-          env:
-            - name: SERVER_PORT
-              value: "8080"
-            - name: DB_URL
-              valueFrom:
-                configMapKeyRef:
-                  name: user-service-config
-                  key: db_url
-            - name: DB_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: user-service-secrets
-                  key: username
-            - name: DB_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: user-service-secrets
-                  key: password
-            - name: SECRET
-              valueFrom:
-                configMapKeyRef:
-                  name: user-service-config
-                  key: secret
+          envFrom:
+          - configMapRef:
+              name: user-service-config
+          - secretRef:
+              name: user-service-secrets
           livenessProbe:
             tcpSocket:
               port: 8080
