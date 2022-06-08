@@ -2,6 +2,7 @@ pipeline {
     agent 
     {
         kubernetes {
+            label 'build-agent'
             yaml '''
             apiVersion: v1
             kind: Pod
@@ -9,7 +10,7 @@ pipeline {
             name: kaniko
             spec:
             containers:
-              - name: kaniko
+              - name: jnlp
                 image: gcr.io/kaniko-project/executor:latest
                 args:
                 volumeMounts:
