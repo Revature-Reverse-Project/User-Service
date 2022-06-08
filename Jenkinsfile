@@ -75,7 +75,6 @@ pipeline {
                 //     sh "docker tag user-service ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/user-service"
                 //     sh "docker push ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/user-service"
                 // }
-            }
         }
         stage ('Deploy to GKE') {
             steps {
