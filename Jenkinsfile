@@ -8,23 +8,23 @@ pipeline {
             name: kaniko
             spec:
             containers:
-            - name: kaniko
+              - name: kaniko
                 image: gcr.io/kaniko-project/executor:latest
                 args:
-                - "--dockerfile=Dockerfile"
-                - "--context=git://github.com/Revature-Reverse-Project/User-Service"
-                - "--destination=gcr.io/reverse-devops-sre/user-service:1.0"
+                  - "--dockerfile=Dockerfile"
+                  - "--context=git://github.com/Revature-Reverse-Project/User-Service"
+                  - "--destination=gcr.io/reverse-devops-sre/user-service:1.0"
                 volumeMounts:
-                - name: kaniko-secret
-                mountPath: /secret
+                  - name: kaniko-secret
+                    mountPath: /secret
                 env:
-                - name: GOOGLE_APPLICATION_CREDENTIALS
-                value: /secret/kaniko-secret.json
+                  - name: GOOGLE_APPLICATION_CREDENTIALS
+                    value: /secret/kaniko-secret.json
             restartPolicy: Never
             volumes:
-            - name: kaniko-secret
+              - name: kaniko-secret
                 secret:
-                secretName: kaniko-secret
+                    secretName: kaniko-secret
                 
         '''
         }
