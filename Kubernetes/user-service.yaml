@@ -20,13 +20,6 @@ spec:
         - name: user-service
           image: user-service
           imagePullPolicy: Always
-          resources:
-            requests:
-              memory: "500Mi"
-              cpu: "100m"
-            limits:
-              memory: "1000Mi"
-              cpu: "200m"
           ports:
             - containerPort: 8081
           envFrom:
@@ -53,9 +46,9 @@ metadata:
     app: user-service
   name: user-service-service
 spec:
+  selector:
+    app: user-service
   type: LoadBalancer
   ports:
     - port: 90
       targetPort: 8081
-  selector:
-    app: user-service
