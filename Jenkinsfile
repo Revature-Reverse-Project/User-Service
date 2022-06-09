@@ -13,7 +13,7 @@ pipeline {
                     -v `pwd`:/container/directory \
                     -w /container/directory \
                     maven:3.8.5-openjdk-8-slim \
-                    mvn test clean"
+                    mvn test clean" 
 
                     sh "docker run \
                     --user \"\$(id -u):\$(id -g)\" \
