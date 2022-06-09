@@ -23,10 +23,10 @@ spec:
           resources:
             requests:
               memory: "500Mi"
-              cpu: "1000m"
+              cpu: "100m"
             limits:
               memory: "1000Mi"
-              cpu: "1500m"
+              cpu: "200m"
           ports:
             - containerPort: 8080
           envFrom:
