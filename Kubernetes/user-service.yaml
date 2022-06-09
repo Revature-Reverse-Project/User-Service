@@ -46,6 +46,7 @@ metadata:
     app: user-service
   name: user-service-service
 spec:
+  type: LoadBalancer
   ports:
     - port: 90
       targetPort: 8080
