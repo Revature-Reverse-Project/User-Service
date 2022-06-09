@@ -37,7 +37,7 @@ spec:
           livenessProbe:
             tcpSocket:
               port: 8081
-            initialDelaySeconds: 60
+            initialDelaySeconds: 90
             periodSeconds: 15
           readinessProbe:
             httpGet:
