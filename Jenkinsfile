@@ -13,12 +13,9 @@ pipeline {
     stage('Code Analysis') {
         steps {
             withSonarQubeEnv('SonarCloud') {
-                withMaven(maven:'Maven 3.7') {
-                  sh 'mvn clean package sonar:sonar'
-                }
-                // sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.7.0.1746:sonar \
-                //     -Dsonar.organization=$ORGANIZATION \
-                //     -Dsonar.java.binaries=target'
+                sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.7.0.1746:sonar \
+                    -Dsonar.organization=$ORGANIZATION \
+                    -Dsonar.java.binaries=target'
             }
         }
     }
